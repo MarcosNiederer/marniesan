@@ -375,12 +375,7 @@ void loop() {
           wst();
         }
       }
-      if (wnddir){
-        
-      tft.print(wndrie);
-      }
-      
-      if (winddirection receive){
+      if (winddirection ?? ){
         tft.print (wnddir)
         }
       
