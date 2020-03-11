@@ -90,21 +90,18 @@ void wst()  //draws weatherstation menu
 
 void temperaturescreen()  //draws temperature menu
 {
+  //tft.fillScreen(HX8357_BLUE);
   tft.fillRoundRect(400, 0, 80, 80, 8, HX8357_BLACK);   //back button
   tft.drawRoundRect(400, 0, 80, 80, 8, HX8357_WHITE);
   tft.setCursor(405, 45);
   tft.setFont(&FreeSerifBold12pt7b);
   tft.setTextColor(HX8357_WHITE);
   tft.print("BACK");
-
-  tft.fillRoundRect(80, 100, 150, 80, 8, HX8357_BLACK);   //live temp template
-  tft.drawRoundRect(80, 100, 150, 80, 8, HX8357_WHITE);
+  tft.fillRoundRect(50, 50, 100, 80, 8, HX8357_BLACK);   //live temp template
+  tft.drawRoundRect(50, 50, 100, 80, 8, HX8357_WHITE);
   tft.setCursor(100, 125);
   tft.setFont(&FreeSerifBold12pt7b);
   tft.setTextColor(HX8357_WHITE);
-
-
-
 }
 
 void rainfallscreen()  //draws rainfall menu
@@ -115,6 +112,8 @@ void rainfallscreen()  //draws rainfall menu
   tft.setFont(&FreeSerifBold12pt7b);
   tft.setTextColor(HX8357_WHITE);
   tft.print("BACK");
+  tft.fillRoundRect(50, 50, 100, 80, 8, HX8357_BLACK);   //live rainfall template
+  tft.drawRoundRect(50, 50, 100, 80, 8, HX8357_WHITE);
 }
 void windspeedscreen()  //draws windspeed menu
 {
@@ -124,8 +123,10 @@ void windspeedscreen()  //draws windspeed menu
   tft.setFont(&FreeSerifBold12pt7b);
   tft.setTextColor(HX8357_WHITE);
   tft.print("BACK");
+  tft.fillRoundRect(50, 50, 100, 80, 8, HX8357_BLACK);   //live winddirection template
+  tft.drawRoundRect(50, 50, 100, 80, 8, HX8357_WHITE);
 }
-void winddirectionscreen()  //draws windspeed menu
+void winddirectionscreen()  //draws winddirection menu
 {
   tft.fillRoundRect(400, 0, 80, 80, 8, HX8357_BLACK);   //back button
   tft.drawRoundRect(400, 0, 80, 80, 8, HX8357_WHITE);
@@ -133,6 +134,8 @@ void winddirectionscreen()  //draws windspeed menu
   tft.setFont(&FreeSerifBold12pt7b);
   tft.setTextColor(HX8357_WHITE);
   tft.print("BACK");
+  tft.fillRoundRect(50, 50, 100, 80, 8, HX8357_BLACK);   //live winddirection template
+  tft.drawRoundRect(50, 50, 100, 80, 8, HX8357_WHITE);
 }
 void awnbtn() //draws awning control menu
 {
@@ -171,6 +174,13 @@ void handleMessageTemp(AdafruitIO_Data *data) { // tdest
   Serial.print("received temp <-  ");
   Serial.println(data->toInt());
   temp = data->toInt();
+  /*if (currentpage==3) {
+  tft.fillRoundRect(80, 100, 150, 80, 8, HX8357_BLACK);   //live temp template
+  tft.drawRoundRect(80, 100, 150, 80, 8, HX8357_WHITE);
+  tft.setCursor(100, 125);
+  tft.setFont(&FreeSerifBold12pt7b);
+  tft.setTextColor(HX8357_WHITE);
+  }*/
 }
 
 int rain = 0; // tdest
@@ -339,7 +349,7 @@ void loop() {
       
         
     
-      tft.print(temp);
+    //  tft.print(temp);
     }
     if (currentpage == 4) //rainfall menu
     {
@@ -351,7 +361,7 @@ void loop() {
           wst();
         }
       }
-      tft.print(rain);
+   //   tft.print(rain);
     }
     if (currentpage == 5) //windspeed menu
     {
@@ -363,7 +373,7 @@ void loop() {
           wst();
         }
       }
-      tft.print(wndspd);
+     // tft.print(wndspd);     
     }
     if (currentpage == 6) //windspeed menu
     {
@@ -375,10 +385,43 @@ void loop() {
           wst();
         }
       }
-      if (winddirection ?? ){
-        tft.print (wnddir)
-        }
-      
+     // tft.display (wnddir);
     }
+  }
+  if (currentpage==3) { //temperature value update
+    
+    tft.setCursor(60, 100);
+    tft.print (temp);
+    tft.print (" C");
+    delay(1000);
+    tft.fillRoundRect(50, 50, 100, 80, 8, HX8357_BLACK);   //live temp template
+    tft.drawRoundRect(50, 50, 100, 80, 8, HX8357_WHITE); 
+  }
+  if (currentpage==4) { //rainfall value update
+    
+    tft.setCursor(80, 100);
+    tft.print (rain);
+    tft.print ("");
+    delay(1000);
+    tft.fillRoundRect(50, 50, 100, 80, 8, HX8357_BLACK);   //live rain template
+    tft.drawRoundRect(50, 50, 100, 80, 8, HX8357_WHITE);
+}
+  if (currentpage==5) { //windspeed value update
+    
+    tft.setCursor(80, 100);
+    tft.print (wndspd);
+    tft.print ("");
+    delay(1000);
+    tft.fillRoundRect(50, 50, 100, 80, 8, HX8357_BLACK);   //live temp template
+    tft.drawRoundRect(50, 50, 100, 80, 8, HX8357_WHITE);
+  }
+  if (currentpage==6) { //winddirection value update
+    
+    tft.setCursor(80, 100);
+    tft.print (wnddir);
+    tft.print ("");
+    delay(1000);
+    tft.fillRoundRect(50, 50, 100, 80, 8, HX8357_BLACK);   //live temp template
+    tft.drawRoundRect(50, 50, 100, 80, 8, HX8357_WHITE);
   }
 }
