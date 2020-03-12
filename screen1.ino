@@ -26,11 +26,7 @@ AdafruitIO_Feed *temperature   = io.feed("ab-weather.temperature", FEED_OWNER);
 AdafruitIO_Feed *windspeed     = io.feed("ab-weather.windspeed", FEED_OWNER);
 AdafruitIO_Feed *winddirection = io.feed("ab-weather.winddirection", FEED_OWNER);
 
-
-
 int currentpage;
-
-
 
 void drawHome()  //draws home menu
 {
@@ -169,36 +165,29 @@ void awnbtn() //draws awning control menu
   tft.print("BACK");
 }
 
-int temp = 0; // tdest
-void handleMessageTemp(AdafruitIO_Data *data) { // tdest
+int temp = 0; ////4 coming int and voids handle data from feeds, change it to int and variables are given for printing on screen later
+void handleMessageTemp(AdafruitIO_Data *data) { 
   Serial.print("received temp <-  ");
   Serial.println(data->toInt());
   temp = data->toInt();
-  /*if (currentpage==3) {
-  tft.fillRoundRect(80, 100, 150, 80, 8, HX8357_BLACK);   //live temp template
-  tft.drawRoundRect(80, 100, 150, 80, 8, HX8357_WHITE);
-  tft.setCursor(100, 125);
-  tft.setFont(&FreeSerifBold12pt7b);
-  tft.setTextColor(HX8357_WHITE);
-  }*/
 }
 
-int rain = 0; // tdest
-void handleMessageRain(AdafruitIO_Data *data) { // tdest
-  Serial.print("received rain <-  ");
+int rain = 0;
+void handleMessageRain(AdafruitIO_Data *data) { 
+  Serial.print("received rain <-  "); 
   Serial.println(data->toInt());
   rain = data->toInt();
 }
 
-int wndspd = 0; // tdest
-void handleMessageWindspeed(AdafruitIO_Data *data) { // tdest
+int wndspd = 0; 
+void handleMessageWindspeed(AdafruitIO_Data *data) { 
   Serial.print("received windspeed <-  ");
   Serial.println(data->toInt());
   wndspd = data->toInt();
 }
 
-int wnddir = 0; // tdest
-void handleMessageWindDirection(AdafruitIO_Data *data) { // tdest
+int wnddir = 0; 
+void handleMessageWindDirection(AdafruitIO_Data *data) {  
   Serial.print("received winddirection <-  ");
   Serial.println(data->toInt());
   wnddir = data->toInt();
@@ -209,10 +198,10 @@ void setup(void) {
   while (! Serial);
   Serial.print("Connecting to Adafruit IO");
   io.connect();
-  /* rainfall->onMessage(handleMessage);*/  rainfall->onMessage(handleMessageRain);
-  /*temperature->onMessage(handleMessage);*/ temperature->onMessage(handleMessageTemp);
-  /* windspeed->onMessage(handleMessage);*/    windspeed->onMessage(handleMessageWindspeed);
-  /* winddirection->onMessage(handleMessage);*/ winddirection->onMessage(handleMessageWindDirection);
+  rainfall->onMessage(handleMessageRain);
+  temperature->onMessage(handleMessageTemp);
+  windspeed->onMessage(handleMessageWindspeed);
+  winddirection->onMessage(handleMessageWindDirection);
   while (io.status() < AIO_CONNECTED) {
     Serial.print(".");
     delay(500);
@@ -256,7 +245,6 @@ void loop() {
 
     if (currentpage == 0)
     {
-
       if ((x >= 90) && (x <= 390)) {
         if ((y >= 50) && (y <= 100)) {    //transitions between first menu and weatherstation menu
           Serial.println("btn hit");
@@ -271,10 +259,7 @@ void loop() {
           awnbtn();
         }
       }
-
     }
-
-
     if (currentpage == 2) //page 2 is awning control menu
     {
       if ((x >= 0) && (x <= 80)) {
@@ -285,7 +270,6 @@ void loop() {
           drawHome();
         }
       }
-
     }
 
     if (currentpage == 1)  // page 1 is weatherstation menu
@@ -333,8 +317,6 @@ void loop() {
       }
     }
 
-
-
     if (currentpage == 3) //temperature menu
     {
       if ((x >= 400) && (x <= 480)) {  // transitions of "back" button in temperature menu to wst menu
@@ -343,13 +325,8 @@ void loop() {
           currentpage = 1;
           tft.fillScreen(HX8357_BLUE);
           wst();
-
         }
       }
-      
-        
-    
-    //  tft.print(temp);
     }
     if (currentpage == 4) //rainfall menu
     {
@@ -361,7 +338,6 @@ void loop() {
           wst();
         }
       }
-   //   tft.print(rain);
     }
     if (currentpage == 5) //windspeed menu
     {
@@ -373,7 +349,6 @@ void loop() {
           wst();
         }
       }
-     // tft.print(wndspd);     
     }
     if (currentpage == 6) //windspeed menu
     {
@@ -385,43 +360,42 @@ void loop() {
           wst();
         }
       }
-     // tft.display (wnddir);
     }
   }
-  if (currentpage==3) { //temperature value update
-    
+  if (currentpage == 3) { //temperature value update
+
     tft.setCursor(60, 100);
     tft.print (temp);
     tft.print (" C");
-    delay(1000);
+    delay(1000);  //change all delays with millis
     tft.fillRoundRect(50, 50, 100, 80, 8, HX8357_BLACK);   //live temp template
-    tft.drawRoundRect(50, 50, 100, 80, 8, HX8357_WHITE); 
+    tft.drawRoundRect(50, 50, 100, 80, 8, HX8357_WHITE);
   }
-  if (currentpage==4) { //rainfall value update
-    
+  if (currentpage == 4) { //rainfall value update
+
     tft.setCursor(80, 100);
     tft.print (rain);
     tft.print ("");
-    delay(1000);
+    delay(1000);  //change all delays with millis
     tft.fillRoundRect(50, 50, 100, 80, 8, HX8357_BLACK);   //live rain template
     tft.drawRoundRect(50, 50, 100, 80, 8, HX8357_WHITE);
-}
-  if (currentpage==5) { //windspeed value update
-    
+  }
+  if (currentpage == 5) { //windspeed value update
+
     tft.setCursor(80, 100);
     tft.print (wndspd);
     tft.print ("");
-    delay(1000);
-    tft.fillRoundRect(50, 50, 100, 80, 8, HX8357_BLACK);   //live temp template
+    delay(1000); //change all delays with millis
+    tft.fillRoundRect(50, 50, 100, 80, 8, HX8357_BLACK);   //live windspeed template
     tft.drawRoundRect(50, 50, 100, 80, 8, HX8357_WHITE);
   }
-  if (currentpage==6) { //winddirection value update
-    
+  if (currentpage == 6) { //winddirection value update
+
     tft.setCursor(80, 100);
     tft.print (wnddir);
     tft.print ("");
-    delay(1000);
-    tft.fillRoundRect(50, 50, 100, 80, 8, HX8357_BLACK);   //live temp template
+    delay(1000); //change all delays with millis
+    tft.fillRoundRect(50, 50, 100, 80, 8, HX8357_BLACK);   //live winddirection template
     tft.drawRoundRect(50, 50, 100, 80, 8, HX8357_WHITE);
   }
 }
